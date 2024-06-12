@@ -1,6 +1,6 @@
 import { EStatus } from "@models";
 
-export const submitSettlement = async (amount: number) => {
+export const submitSettlement = async (amount: number, status: string) => {
   const response = await fetch(
     `${process.env.backend_url}/api/settlements/add-new`,
     {
@@ -8,7 +8,11 @@ export const submitSettlement = async (amount: number) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount, status: EStatus.PENDING }),
+      body: JSON.stringify({
+        amount,
+        status: EStatus.PENDING,
+        checkPrev: status === "pending" ? 1 : 0,
+      }),
     }
   );
 
@@ -36,12 +40,4 @@ export const sendResponse = async (
   });
 
   return res.json();
-};
-
-export const getLastResponse = async () => {
-  const response = await fetch(
-    `${process.env.backend_url}/api/responses/get-last`
-  );
-
-  return response.json();
 };

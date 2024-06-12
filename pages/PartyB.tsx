@@ -3,6 +3,8 @@ import { useSetRecoilState } from "recoil";
 import { Button, Card, Flex, Modal } from "antd";
 import { partyBResponseState } from "@app/state";
 import { getLastSettlement, sendResponse } from "@app/apiClient";
+import useWebSocket from "@hooks/useWebSockets";
+import { EWSTypes } from "@models";
 
 export const PartyB = () => {
   const setResponse = useSetRecoilState(partyBResponseState);
@@ -10,6 +12,21 @@ export const PartyB = () => {
     amount: null,
     settlementId: null,
   });
+
+  const ws = useWebSocket();
+
+  if (ws) {
+    ws.onmessage = (event: any) => {
+      const data = JSON.parse(event.data);
+      if (data.type === EWSTypes.SETTLEMENT) {
+        // Refresh settlement
+        setCurrentValue({
+          amount: data.amount,
+          settlementId: data.settlementId,
+        });
+      }
+    };
+  }
 
   useEffect(() => {
     getLastSettlement().then((res) => {
@@ -46,7 +63,7 @@ export const PartyB = () => {
   return (
     <Flex className="party partyB" vertical gap="large">
       <Card size="small" title="Party A offer">
-        {currentValue?.amount}
+        {currentValue.amount}
       </Card>
       <Flex gap="large">
         <Button onClick={onSettle} size="large">

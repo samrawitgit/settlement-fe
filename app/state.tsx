@@ -1,8 +1,9 @@
+import { EStatus } from "@models";
 import { atom } from "recoil";
 
-export const partyAAmountState = atom<number>({
+export const partyAAmountState = atom<{ amount: number; status: EStatus }>({
   key: "partyAAmount",
-  default: 0,
+  default: { amount: 0, status: EStatus.PENDING },
 });
 
 export const partyBResponseState = atom<boolean>({

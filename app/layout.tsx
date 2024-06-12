@@ -17,17 +17,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: "#0c0f12",
-          },
-        }}
-      >
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#0c0f12",
+            },
+          }}
+        >
           <App>{children}</App>
-        </body>
-      </ConfigProvider>
+        </ConfigProvider>
+      </body>
     </html>
   );
 }

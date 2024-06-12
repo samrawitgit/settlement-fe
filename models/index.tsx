@@ -3,3 +3,8 @@ export enum EStatus {
   DIPUTED = "disputed",
   SETTLED = "settled",
 }
+
+export enum EWSTypes {
+  RESPONSE = "response_submitted",
+  SETTLEMENT = "settlement_submitted",
+}
